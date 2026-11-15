@@ -81,7 +81,7 @@ git log --oneline -4
 git diff --stat HEAD~2 HEAD
     Compares the repository before the experimental commit with now; empty output means no net change.
 
-git show --stat HEAD
+git show --stat --format="%h %s" HEAD
     Displays the revert commit and the lines it removed.
 
 grep -c "SEED SALE" index.html
