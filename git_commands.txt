@@ -1,119 +1,122 @@
-GIT COMMANDS USED - Community Garden website assignment
-========================================================
+COMMAND LOG: Greenleaf Community Garden repository
+===================================================
+Every command I typed for this assignment, numbered in the order I ran it.
+Layout:  [no.] command
+              purpose of the command
 
-Setup
------
-mkdir community-garden-site
-    Creates the project folder on the local machine.
+[01] mkdir community-garden-site
+         Make an empty folder that will hold the website.
 
-cd community-garden-site
-    Moves into the new folder so every later command runs inside the project.
+[02] cd community-garden-site
+         Step inside it so the remaining commands act on this project.
 
-git init -b main
-    Turns the folder into a Git repository and names the first branch "main".
+[03] ls
+         Check that index.html and about.html are present before tracking them.
 
-ls
-    Lists the files in the folder to confirm index.html and about.html exist.
+[04] git init -b main
+         Start version control here; the default branch is called main.
 
-git status --short
-    Short summary of changes; "??" marks untracked files, and clean output means nothing is pending.
+[05] git status --short
+         Quick view of the working tree. "??" means a file Git does not track yet.
 
-Step 2 - Commits, branching and merging
----------------------------------------
-git add index.html about.html
-    Stages the two HTML pages so they are included in the next commit.
+[06] git add index.html about.html
+         Put both pages in the staging area for the first snapshot.
 
-git commit -m "Add homepage and about page for the garden club site"
-    Records the staged files as the first (initial) commit.
+[07] git commit -m "Add homepage and about page for the garden club site"
+         Save the staged pages as the initial commit.
 
-git commit -am "Add upcoming events section to homepage"
-    Stages every modified tracked file (index.html) and commits it in one go - the second commit.
+[08] git commit -am "Add upcoming events section to homepage"
+         After editing index.html, stage the tracked change and commit it in one command (second commit).
 
-git branch feature
-    Creates a new branch called "feature" that points at the current commit.
+[09] git branch feature
+         Create a branch named feature at the current commit.
 
-git switch feature
-    Moves HEAD to the feature branch so new commits are made there.
+[10] git switch feature
+         Move onto that branch so my next commit lands there instead of on main.
 
-git add about.html
-    Stages the edited about.html (volunteer list added on the feature branch).
+[11] git add about.html
+         Stage the about page, which now lists the volunteer team.
 
-git commit -m "Add volunteer team section to about page"
-    Commits the volunteer-section change onto the feature branch only.
+[12] git commit -m "Add volunteer team section to about page"
+         Record the change; only the feature branch moves forward.
 
-git switch main
-    Returns to the main branch; the volunteer section disappears from the working files.
+[13] git switch main
+         Go back to main, which does not yet contain the volunteer list.
 
-git merge --no-ff feature -m "Merge feature: volunteer team section"
-    Merges feature into main. --no-ff forces a real merge commit so the branch stays visible in history.
+[14] git merge --no-ff feature -m "Merge feature: volunteer team section"
+         Bring the feature work into main. --no-ff always creates a merge commit, so the branch stays visible.
 
-git log --graph --oneline --decorate --all
-    Prints a compact commit graph of every branch, showing commits, branches and the merge.
+[15] git log --graph --oneline --decorate --all
+         Draw the full history as an ASCII graph, one line per commit, with branch labels.
 
-Step 3 - .gitignore
--------------------
-git status --short --ignored
-    Lists changed files in short form; the "!!" marker shows files Git is deliberately ignoring.
+[16] cat .gitignore
+         Print the ignore file to show its two rules: *.log and temp/.
 
-cat .gitignore
-    Prints the ignore rules to prove what the file contains.
+[17] git status --short --ignored
+         Same short status, but also lists ignored items with the "!!" prefix.
 
-git add .gitignore
-    Stages the new .gitignore file (it contains the rules *.log and temp/).
+[18] git check-ignore -v debug.log temp/scratch.txt
+         Ask Git which rule (file and line) is hiding each of the two test files.
 
-git commit -m "Add .gitignore for log files and temp folder"
-    Commits the ignore rules so they apply for everyone who clones the repo.
+[19] git add .gitignore
+         Stage the new ignore file.
 
-git check-ignore -v debug.log temp/scratch.txt
-    Explains which .gitignore rule matches each given path - proof that the rules work.
+[20] git commit -m "Add .gitignore for log files and temp folder"
+         Commit the ignore rules.
 
-Step 4 - Undo operation
------------------------
-git commit -am "Add experimental seed-sale banner"
-    The additional commit that is going to be undone.
+[21] git commit -am "Add experimental seed-sale banner"
+         Make one more commit, the one I will undo.
 
-git revert --no-edit HEAD
-    Undoes the last commit by creating a new commit with the opposite changes (history is kept, safe for shared repos).
+[22] git log --oneline -3     (and later)     git log --oneline -4
+         Show the newest 3 or 4 commits in one-line form, before and after the undo.
 
-git log --oneline -4
-    Shows the four newest commits, one line each, before and after the undo.
+[23] git revert --no-edit HEAD
+         Undo the last commit by adding a new commit that cancels it out; old history is not rewritten.
 
-git diff --stat HEAD~2 HEAD
-    Compares the repository before the experimental commit with now; empty output means no net change.
+[24] git diff --stat HEAD~2 HEAD
+         Compare the project before the banner with now. No output means the files are the same.
 
-git show --stat --format="%h %s" HEAD
-    Displays the revert commit and the lines it removed.
+[25] git show --stat --format="%h %s" HEAD
+         Display the revert commit and which file/line count it changed.
 
-grep -c "SEED SALE" index.html
-    Counts how many lines still contain the banner text; 0 proves the banner is gone.
+[26] grep -c "SEED SALE" index.html
+         Count lines that still contain the banner text; 0 means it is gone.
 
-Step 6 - Documentation file
----------------------------
-git add git_commands.txt
-    Stages this documentation file.
+[27] git add git_commands.txt
+         Stage this documentation file.
 
-git commit -m "Add git_commands.txt documenting every command used"
-    Commits the documentation file into the project history.
+[28] git commit -m "Add git_commands.txt documenting every command used"
+         Commit it with the rest of the project.
 
-Step 5 - GitHub integration
----------------------------
-gh repo create community-garden-git-assignment --public
-    Creates an empty PUBLIC repository on GitHub (GitHub CLI). Done only after all local work existed.
+[29] gh repo create community-garden-git-assignment --public
+         GitHub CLI: create a new, empty public repository on my GitHub account.
 
-git remote add origin https://github.com/Raghavendra1729-cell/community-garden-git-assignment.git
-    Connects the local repository to the new GitHub repository under the name "origin".
+[30] git remote add origin https://github.com/Raghavendra1729-cell/community-garden-git-assignment.git
+         Register that repository as the remote named origin.
 
-git remote -v
-    Lists the configured remotes and their fetch/push URLs to confirm the connection.
+[31] git remote -v
+         List the remotes and their fetch/push URLs to confirm the link.
 
-git push -u origin main
-    Uploads the main branch to GitHub and sets origin/main as its upstream.
+[32] git push -u origin main
+         Upload main to GitHub and remember origin/main as its upstream branch.
 
-git push origin feature
-    Uploads the feature branch so the branch history is also visible on GitHub.
+[33] git push origin feature
+         Upload the feature branch too, so the branch is visible online.
 
-gh repo view Raghavendra1729-cell/community-garden-git-assignment --json visibility,url
-    Queries GitHub to confirm the repository is PUBLIC and prints its URL.
+[34] gh repo view Raghavendra1729-cell/community-garden-git-assignment --json visibility,url
+         Ask GitHub for the repo's visibility and URL (expected: PUBLIC).
 
-git branch -a
-    Lists local and remote-tracking branches to confirm both branches reached GitHub.
+[35] git branch -a
+         List local and remote-tracking branches to check both reached GitHub.
+
+[36] git commit -am "Fix git show entry in git_commands.txt"
+         Small correction to this file after I noticed one command was written differently from what I ran.
+
+[37] git push origin main
+         Send that correction to GitHub.
+
+[38] git commit -am "Rewrite git_commands.txt as a numbered command log"
+         Final tidy-up of this file into the numbered format you are reading.
+
+[39] git status
+         Confirm the working tree is clean and main matches origin/main.
