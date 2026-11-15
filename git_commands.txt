@@ -1,0 +1,119 @@
+GIT COMMANDS USED - Community Garden website assignment
+========================================================
+
+Setup
+-----
+mkdir community-garden-site
+    Creates the project folder on the local machine.
+
+cd community-garden-site
+    Moves into the new folder so every later command runs inside the project.
+
+git init -b main
+    Turns the folder into a Git repository and names the first branch "main".
+
+ls
+    Lists the files in the folder to confirm index.html and about.html exist.
+
+git status --short
+    Short summary of changes; "??" marks untracked files, and clean output means nothing is pending.
+
+Step 2 - Commits, branching and merging
+---------------------------------------
+git add index.html about.html
+    Stages the two HTML pages so they are included in the next commit.
+
+git commit -m "Add homepage and about page for the garden club site"
+    Records the staged files as the first (initial) commit.
+
+git commit -am "Add upcoming events section to homepage"
+    Stages every modified tracked file (index.html) and commits it in one go - the second commit.
+
+git branch feature
+    Creates a new branch called "feature" that points at the current commit.
+
+git switch feature
+    Moves HEAD to the feature branch so new commits are made there.
+
+git add about.html
+    Stages the edited about.html (volunteer list added on the feature branch).
+
+git commit -m "Add volunteer team section to about page"
+    Commits the volunteer-section change onto the feature branch only.
+
+git switch main
+    Returns to the main branch; the volunteer section disappears from the working files.
+
+git merge --no-ff feature -m "Merge feature: volunteer team section"
+    Merges feature into main. --no-ff forces a real merge commit so the branch stays visible in history.
+
+git log --graph --oneline --decorate --all
+    Prints a compact commit graph of every branch, showing commits, branches and the merge.
+
+Step 3 - .gitignore
+-------------------
+git status --short --ignored
+    Lists changed files in short form; the "!!" marker shows files Git is deliberately ignoring.
+
+cat .gitignore
+    Prints the ignore rules to prove what the file contains.
+
+git add .gitignore
+    Stages the new .gitignore file (it contains the rules *.log and temp/).
+
+git commit -m "Add .gitignore for log files and temp folder"
+    Commits the ignore rules so they apply for everyone who clones the repo.
+
+git check-ignore -v debug.log temp/scratch.txt
+    Explains which .gitignore rule matches each given path - proof that the rules work.
+
+Step 4 - Undo operation
+-----------------------
+git commit -am "Add experimental seed-sale banner"
+    The additional commit that is going to be undone.
+
+git revert --no-edit HEAD
+    Undoes the last commit by creating a new commit with the opposite changes (history is kept, safe for shared repos).
+
+git log --oneline -4
+    Shows the four newest commits, one line each, before and after the undo.
+
+git diff --stat HEAD~2 HEAD
+    Compares the repository before the experimental commit with now; empty output means no net change.
+
+git show --stat HEAD
+    Displays the revert commit and the lines it removed.
+
+grep -c "SEED SALE" index.html
+    Counts how many lines still contain the banner text; 0 proves the banner is gone.
+
+Step 6 - Documentation file
+---------------------------
+git add git_commands.txt
+    Stages this documentation file.
+
+git commit -m "Add git_commands.txt documenting every command used"
+    Commits the documentation file into the project history.
+
+Step 5 - GitHub integration
+---------------------------
+gh repo create community-garden-git-assignment --public
+    Creates an empty PUBLIC repository on GitHub (GitHub CLI). Done only after all local work existed.
+
+git remote add origin https://github.com/Raghavendra1729-cell/community-garden-git-assignment.git
+    Connects the local repository to the new GitHub repository under the name "origin".
+
+git remote -v
+    Lists the configured remotes and their fetch/push URLs to confirm the connection.
+
+git push -u origin main
+    Uploads the main branch to GitHub and sets origin/main as its upstream.
+
+git push origin feature
+    Uploads the feature branch so the branch history is also visible on GitHub.
+
+gh repo view Raghavendra1729-cell/community-garden-git-assignment --json visibility,url
+    Queries GitHub to confirm the repository is PUBLIC and prints its URL.
+
+git branch -a
+    Lists local and remote-tracking branches to confirm both branches reached GitHub.
